@@ -1,0 +1,181 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f5f7fa;
+    --card-background: #ffffff;
+    --text-color: #34495e;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+  }
+  
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .feature-flags {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  
+  .create-button {
+    width:200px;
+    text-align: center;
+    margin: 20px;
+    margin-left:0px;
+    padding: 12px 24px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .create-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+  }
+  
+  .create-card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+  }
+  
+  .create-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .create-card h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+  }
+  
+  .create-card form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .create-card input,
+  .create-card label {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .create-card button {
+    margin: 10px 0;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .create-card button[type="submit"] {
+    background-color: var(--secondary-color);
+    color: white;
+  }
+  
+  .create-card button[type="button"] {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .flag-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+  }
+  
+  .flag-item {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .flag-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  .flag-item h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+  }
+  
+  .flag-item p {
+    margin: 10px 0;
+  }
+  
+  .flag-item .description {
+    max-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: max-height 0.3s ease;
+  }
+  
+  .flag-item .description.expanded {
+    max-height: none;
+    white-space: normal;
+  }
+  
+  .flag-item .status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .flag-item .status.enabled {
+    background-color: var(--secondary-color);
+    color: white;
+  }
+  
+  .flag-item .status.disabled {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .flag-item button {
+    margin-right: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .flag-item .toggle-button {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .flag-item .delete-button {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .flag-item .expand-button {
+    background-color: var(--primary-color);
+    color: white;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
