@@ -7,17 +7,16 @@ import {Toaster, toast} from 'sonner';
 const Login = ({setUserName,isAuthenticated,setIsAuthenticated }) => {
   const navigate = useNavigate();
 useEffect(()=>{
-  console.log(isAuthenticated)
   if(isAuthenticated){
   navigate("/");
 }},[])
  
   const [formData, setFormData] = useState({
     userName: '',
-    password: ''
+    password: '',
   });
 
-  const { userName, password } = formData;
+  const { userName, password} = formData;
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -25,9 +24,8 @@ useEffect(()=>{
     e.preventDefault();
     try {
       const res = await axios.post('http://localhost:4000/api/auth/login', formData);
-      console.log(res);
       localStorage.setItem("token",true);
-      localStorage.setItem("user",res.data.userName);
+      localStorage.setItem("user",JSON.stringify(res.data));
       toast.success("login succesful");
       setTimeout(()=>{
         setIsAuthenticated(true);

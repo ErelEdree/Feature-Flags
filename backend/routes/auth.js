@@ -26,7 +26,7 @@ router.post('/register',async(req,res)=>{
 )
 
 router.post("/login",async(req,res)=>{
-    const {userName, password, role} = req.body;
+    const {userName, password} = req.body;
 
     try{
         const user = await User.findOne({userName});
@@ -39,7 +39,7 @@ router.post("/login",async(req,res)=>{
         if(user.password!=password){
             return res.status(400).json({message:"Invalid Credentials"});
         }
-        res.json({message:"Login Successful", userId:user.id, userName:userName});
+        res.json({message:"Login Successful", userId:user.id, userName:userName, role:user.role});
     }catch(error){
         console.error(error.message);
         res.status(500).send('Server error');

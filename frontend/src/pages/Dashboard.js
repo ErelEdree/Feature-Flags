@@ -5,6 +5,7 @@ import FlagForm from "../components/FlagForm";
 import "../styles/editForm.css";
 import ConfirmModal from '../components/ConfirmModal';
 import DisplayFlag from "../components/DisplayFlag";
+import {Toaster, toast} from "sonner";
 
 const Dashboard = () => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
@@ -15,9 +16,16 @@ const Dashboard = () => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedEnvironment, setSelectedEnvironment] = useState('');
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  console.log(`USER IS: ${user.role}`)
   useEffect(() => {
     loadFeatureFlags();
   }, []);
+
+  useEffect(()=>{
+    toast.info("Click on a feature to see description")
+  },[])
 
   const loadFeatureFlags = async () => {
     const response = await getFeatureFlags();
@@ -54,6 +62,7 @@ const Dashboard = () => {
     setDisplayFlag(null);
   };
 
+
   const filteredFeatureFlags = featureFlags.filter(flag => {
     return (
       (selectedCountry === '' || flag.country === selectedCountry) &&
@@ -66,7 +75,16 @@ const Dashboard = () => {
   return (
     <div className="feature-flags">
       <h2>Feature Flags</h2>
-      {editedFlag && (
+      <p className="explanation">Feature flags enable you to change your app's behaviour from within this dashboard. For example,
+        turn on/off a sales banner or a title of a landing page.
+      </p>
+      <Toaster richColors
+      toastOptions={{
+        style:{ 
+          padding: '16px',
+          borderRadius: '8px'}}}/>
+        
+        {editedFlag && (
         <div className="edit-form" onClick={()=>{setEditedFlag(null)}}>
           <FlagForm loadFeatureFlags={loadFeatureFlags} setEditedFlag={setEditedFlag} editedFlag={editedFlag} />
         </div>
@@ -111,11 +129,19 @@ const Dashboard = () => {
             </p>
 
             <p>Environment: <span className={`flag-environment ${flag.environment}`}>{flag.environment}</span></p>
+            <div className="buttons"> 
             <button 
-              className="toggle-button"
-              onClick={(e) => { e.stopPropagation(); handleUpdate(flag._id, { ...flag, enabled: !flag.enabled })}}
+              className={`toggle-button ${flag.enabled ? "enabled" : "disabled"}`}
+              onClick={(e) => { e.stopPropagation(); 
+                if(flag.permission === "Developer" || user.role==="admin"){
+                handleUpdate(flag._id, { ...flag, enabled: !flag.enabled });}
+                else{
+                  toast.error("Lacking necessary permissions")
+                }
+                }
+              }
             >
-              Toggle
+             {flag.enabled ? "Turn off":"Turn on"} 
             </button>
             <button 
               className="delete-button"
@@ -129,6 +155,7 @@ const Dashboard = () => {
             >
               Edit
             </button>
+            </div>
           </div>
         ))}
       </div>
