@@ -2,8 +2,9 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import "../styles/header.css";
 
-const Header = ({ setIsAuthenticated, isAuthenticated }) => {
+const Header = ({ userName, setIsAuthenticated, isAuthenticated }) => {
   const handleLogout = () => {
+    localStorage.removeItem('token');
     setIsAuthenticated(false);
   };
 
@@ -12,9 +13,13 @@ const Header = ({ setIsAuthenticated, isAuthenticated }) => {
       <ul className="navbar-list">
         {isAuthenticated ? (
           <>
+          <div className="navbar-left">
             <li className="navbar-item left"><NavLink to="/">Dashboard</NavLink></li>
+            <li className="navbar-item left"><NavLink to="/create">Create New Feature</NavLink></li>
+            </div>
             <div className="navbar-right">
               <li className="navbar-item"><NavLink to="/" onClick={handleLogout}>Logout</NavLink></li>
+              <li className="navbar-item">Current User: {userName}</li>
             </div>
           </>
         ) : (

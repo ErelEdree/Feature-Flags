@@ -1,0 +1,74 @@
+.edit-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  overflow: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.edit-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90%;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.edit-card h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.edit-card form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-card input,
+.edit-card select,
+.edit-card label {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.edit-card button {
+  margin: 10px 0;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-card button[type="submit"] {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.edit-card button[type="button"] {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.select-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.status-text {
+  margin-left: 5px;
+}

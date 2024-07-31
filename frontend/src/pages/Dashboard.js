@@ -1,39 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { getFeatureFlags, createFeatureFlag, updateFeatureFlag, deleteFeatureFlag } from '../services/featureFlagServices';
+import { getFeatureFlags, updateFeatureFlag, deleteFeatureFlag } from '../services/featureFlagServices';
+import "../styles/Dashboard.css";
+import FlagForm from "../components/FlagForm";
+import "../styles/editForm.css";
 import ConfirmModal from '../components/ConfirmModal';
-import "../styles/featureFlags.css";
+import DisplayFlag from "../components/DisplayFlag";
 
 const Dashboard = () => {
-  const [featureFlags, setFeatureFlags] = useState([]);
-  const [newFlag, setNewFlag] = useState({ name: '', enabled: false, description: '' });
-  const [isCreating, setIsCreating] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [flagToDelete, setFlagToDelete] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [expandedFlag, setExpandedFlag] = useState(null);
+  const [featureFlags, setFeatureFlags] = useState([]);
+  const [editedFlag, setEditedFlag] = useState(null);
+  const [displayFlag, setDisplayFlag] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedEnvironment, setSelectedEnvironment] = useState('');
 
   useEffect(() => {
     loadFeatureFlags();
   }, []);
 
   const loadFeatureFlags = async () => {
-    setIsLoading(true);
     const response = await getFeatureFlags();
     setFeatureFlags(response.data);
-    setIsLoading(false);
-  };
-
-  const handleCreate = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    await createFeatureFlag(newFlag);
-    setNewFlag({ name: '', enabled: false, description: '' });
-    setIsCreating(false);
-    loadFeatureFlags();
   };
 
   const handleUpdate = async (id, updatedFlag) => {
-    setIsLoading(true);
     await updateFeatureFlag(id, updatedFlag);
     loadFeatureFlags();
   };
@@ -45,7 +36,6 @@ const Dashboard = () => {
 
   const handleConfirmDelete = async () => {
     if (flagToDelete) {
-      setIsLoading(true);
       await deleteFeatureFlag(flagToDelete._id);
       loadFeatureFlags();
     }
@@ -53,85 +43,97 @@ const Dashboard = () => {
     setFlagToDelete(null);
   };
 
-  const toggleExpand = (id) => {
-    setExpandedFlag(expandedFlag === id ? null : id);
+
+
+  const toDisplayFlag = (flag) => {
+    setDisplayFlag(flag);
   };
+
+
+  const closeDisplayFlag = () => {
+    setDisplayFlag(null);
+  };
+
+  const filteredFeatureFlags = featureFlags.filter(flag => {
+    return (
+      (selectedCountry === '' || flag.country === selectedCountry) &&
+      (selectedEnvironment === '' || flag.environment === selectedEnvironment)
+    );
+  });
+
+
 
   return (
     <div className="feature-flags">
       <h2>Feature Flags</h2>
-      
-      {isLoading && <p>Loading...</p>}
-      
-      <button onClick={() => setIsCreating(true)} className="create-button">
-        + Create New Flag
-      </button>
-  
-      {isCreating && (
-        <div className="create-card">
-          <h3>Create New Feature Flag</h3>
-          <form onSubmit={handleCreate}>
-            <input 
-              type="text" 
-              placeholder="Name" 
-              value={newFlag.name} 
-              onChange={(e) => setNewFlag({ ...newFlag, name: e.target.value })} 
-              required 
-            />
-            <input 
-              type="text" 
-              placeholder="Description" 
-              value={newFlag.description} 
-              onChange={(e) => setNewFlag({ ...newFlag, description: e.target.value })} 
-            />
-            <label>
-              <input 
-                type="checkbox" 
-                checked={newFlag.enabled} 
-                onChange={(e) => setNewFlag({ ...newFlag, enabled: e.target.checked })} 
-              />
-              Enabled
-            </label>
-            <button type="submit">Create</button>
-            <button type="button" onClick={() => setIsCreating(false)}>Cancel</button>
-          </form>
+      {editedFlag && (
+        <div className="edit-form" onClick={()=>{setEditedFlag(null)}}>
+          <FlagForm loadFeatureFlags={loadFeatureFlags} setEditedFlag={setEditedFlag} editedFlag={editedFlag} />
         </div>
       )}
-  
+      <div className="filters">
+        <label htmlFor="country-select">Country:</label>
+        <select 
+          id="country-select" 
+          value={selectedCountry} 
+          onChange={(e) => setSelectedCountry(e.target.value)}
+        >
+          <option value="">All</option>
+          <option value="Ghana">Ghana</option>
+          <option value="Uganda">Uganda</option>
+        </select>
+
+        <label htmlFor="environment-select">Environment:</label>
+        <select 
+          id="environment-select" 
+          value={selectedEnvironment} 
+          onChange={(e) => setSelectedEnvironment(e.target.value)}
+        >
+          <option value="">All</option>
+          <option value="Production">Production</option>
+          <option value="Development">Development</option>
+        </select>
+      </div>
       <div className="flag-list">
-        {featureFlags.map((flag) => (
-          <div key={flag._id} className="flag-item">
+        {filteredFeatureFlags.map((flag) => (
+          <div 
+            key={flag._id} 
+            className="flag-item" 
+            onClick={() => toDisplayFlag(flag)}
+          >
             <h3>{flag.name}</h3>
-            <p className={expandedFlag === flag._id ? "description expanded" : "description"}>
-              {flag.description}
-            </p>
-            <button 
-              className="expand-button"
-              onClick={() => toggleExpand(flag._id)}
-            >
-              {expandedFlag === flag._id ? "Collapse" : "Expand"}
-            </button>
+        
             <p>
               Status: 
               <span className={`status ${flag.enabled ? 'enabled' : 'disabled'}`}>
                 {flag.enabled ? 'Enabled' : 'Disabled'}
               </span>
             </p>
+
+            <p>Environment: <span className={`flag-environment ${flag.environment}`}>{flag.environment}</span></p>
             <button 
               className="toggle-button"
-              onClick={() => handleUpdate(flag._id, { ...flag, enabled: !flag.enabled })}
+              onClick={(e) => { e.stopPropagation(); handleUpdate(flag._id, { ...flag, enabled: !flag.enabled })}}
             >
               Toggle
             </button>
             <button 
               className="delete-button"
-              onClick={() => handleDeleteClick(flag)}
+              onClick={(e) => { e.stopPropagation(); handleDeleteClick(flag) }}
             >
               Delete
+            </button>
+            <button
+              className="edit-button"
+              onClick={(e) => { e.stopPropagation(); setEditedFlag(flag) }}
+            >
+              Edit
             </button>
           </div>
         ))}
       </div>
+
+      {displayFlag && <DisplayFlag flag={displayFlag} onClose={closeDisplayFlag} />}
 
       <ConfirmModal
         isOpen={isConfirmModalOpen}

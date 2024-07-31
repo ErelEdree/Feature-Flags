@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "../styles/register.css";  // Import the CSS file
-
+import {Toaster,toast} from "sonner";
 const Register = () => {
   const [formData, setFormData] = useState({
     userName: '',
     password: '',
-    role: 'developer'
+    role: 'Developer'
   });
 
   const { userName, password, role } = formData;
@@ -20,11 +20,12 @@ const Register = () => {
     try {
       const res = await axios.post('http://localhost:4000/api/auth/register', formData);
       console.log(res.data);
-      alert('Registration successful!');
-      navigate('/login');
+      toast.success('Registration successful!');
+      setTimeout(()=>{      navigate('/login');
+      },1500);
     } catch (err) {
       console.error(err.response.data);
-      alert('Registration failed!');
+      toast.error('Registration failed!');
     }
   };
 
@@ -44,13 +45,19 @@ const Register = () => {
           <div className="form-group">
             <label>Role:</label>
             <select name="role" value={role} onChange={onChange}>
-              <option value="developer">Developer</option>
-              <option value="admin">Admin</option>
+              <option value="Developer">Developer</option>
+              <option value="Admin">Admin</option>
             </select>
           </div>
           <button type="submit">Register</button>
         </form>
       </div>
+      <Toaster richColors
+      toastOptions={{
+        style:{ 
+
+          padding: '16px',
+          borderRadius: '8px'}}}/> 
     </div>
   );
 };

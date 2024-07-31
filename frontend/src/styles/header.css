@@ -26,13 +26,17 @@
     justify-content: space-between;
   }
   
+  .navbar-left{
+    display:flex;
+
+  }
   /* Style for navbar items */
   .navbar-item {
     margin: 0 15px;
   }
   
   /* Style for navbar links */
-  .navbar-item a {
+  .navbar-item a, .navbar-item{
     color: white;
     text-decoration: none;
     font-weight: bold;

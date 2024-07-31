@@ -1,0 +1,45 @@
+.display-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .display-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    max-height: 80vh; /* Added max-height */
+    overflow-y: auto;  /* Added overflow-y for scroll */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  
+  .display-card h2 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .display-card p {
+    margin: 10px 0;
+  }
+  
+  .display-card .close-button {
+    background-color: #e74c3c;
+    width:100px;
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top:10px;
+  }
+  
