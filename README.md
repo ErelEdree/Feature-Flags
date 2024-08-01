@@ -8,7 +8,8 @@ install backend and frontend dependencies by navigating to each folder respectiv
 
 ## Setting up backend:
 Create a .env file in the backend directory and add the following environment variables:
-PORT, MONGO_URI, using the appropriate port on which the server will be running locally and the URI to the mongoDB database on the local machine.
+PORT, MONGO_URI, using the appropriate port on which the server will be running locally and the URI to the mongoDB database on the local machine. 
+MONGO_URI refers to the path directly to the db the project will be using i.e. ".../feature-flags"
 
 ## Running the project:
 
