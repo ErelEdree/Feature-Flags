@@ -25,11 +25,11 @@ body {
 }
 
 .feature-flags h2 {
-  margin-top: 40px;
+  margin-top: 100px;
 }
 
 .filters { 
-  margin-top:30px;
+  margin-top: 30px;
   margin-bottom: 40px;
 }
 
@@ -55,6 +55,9 @@ body {
   gap: 30px;
 }
 
+.explanation{
+  margin-top:30px;
+}
 .flag-item {
   display: flex;
   align-items: center;
@@ -107,14 +110,21 @@ body {
 
 .flag-item .status.enabled {
   background-color: var(--secondary-color);
-
   color: white;
 }
 
 .flag-item .status.disabled {
-  margin-left:6px;
+  margin-left: 6px;
   background-color: #e74c3c;
   color: white;
+}
+
+.switch-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  margin-right: 10px;
 }
 
 .flag-item button {
@@ -131,20 +141,20 @@ body {
   color: white;
 }
 
-.toggle-button.enabled{
+.toggle-button.enabled {
   background-color: #e74c3c;
 }
 
-.toggle-button.enabled:hover{
-  background-color:red;
+.toggle-button.enabled:hover {
+  background-color: red;
 }
 
-.toggle-button.disabled{
-  background-color:var(--secondary-color)
+.toggle-button.disabled {
+  background-color: var(--secondary-color);
 }
 
-.toggle-button.disabled:hover{
-  background-color:green;
+.toggle-button.disabled:hover {
+  background-color: green;
 }
 
 .flag-item .delete-button {
@@ -152,7 +162,7 @@ body {
   color: white;
 }
 
-.delete-button:hover{
+.delete-button:hover {
   background-color: #ee2812;
 }
 
@@ -213,25 +223,31 @@ body {
   }
 }
 
-.flag-environment{
-  font-weight:bold;
-  margin-left:5px;
-  padding:10px 20px;
-  border-radius:2rem;
-  color:white;
+.flag-environment {
+  font-weight: bold;
+  margin-left: 5px;
+  padding: 10px 20px;
+  border-radius: 2rem;
+  color: white;
 }
 
-.Development{
+.Development {
   background-color: rgb(55, 55, 176);
 }
 
-.Production{
+.Production {
   background-color: rgb(189, 80, 219);
-  padding:10px 30px;
-  margin-left:8px;
+  padding: 10px 30px;
+  margin-left: 8px;
 }
 
-.buttons{
-  display:flex;
-  gap:20px;
-  margin-left:130px;}
+.buttons {
+  display: flex;
+  gap: 20px;
+  margin-left: 130px;
+}
+
+
+#country-select{
+  padding-right:40px;
+}

@@ -1,92 +1,110 @@
 import React, { useEffect, useState } from 'react';
-import { getFeatureFlags, createFeatureFlag, updateFeatureFlag, deleteFeatureFlag } from '../services/featureFlagServices';
-import "../styles/FeatureManagement.css";
+import { updateFeatureFlag } from '../services/featureFlagServices';
+import "../styles/editForm.css";
 import { useNavigate } from 'react-router-dom';
+import {Toaster, toast} from "sonner";
 
+const FlagForm = ({ userRole, loadFeatureFlags, setEditedFlag, editedFlag }) => {
+  const navigate = useNavigate();
 
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    await updateFeatureFlag(editedFlag._id, editedFlag);
+    setEditedFlag(null);
+    loadFeatureFlags();
+    navigate("/");
+  };
 
-const FlagForm = ({loadFeatureFlags, setEditedFlag, editedFlag})=>{
+  useEffect(() => {
+    if (editedFlag) {
+      document.body.classList.add('modal-open');
+    }
 
-    const navigate = useNavigate();
-    const handleEdit = async (e) => {
-        e.preventDefault();
-        console.log(editedFlag)
-        await updateFeatureFlag(editedFlag._id, editedFlag);
-        setEditedFlag(null);
-        loadFeatureFlags();
-        console.log("sucess")
-        navigate("/");
-      };
-      useEffect(()=>{
-        if(editedFlag){
-            setEditedFlag(editedFlag);
-        }
-      },[editedFlag])
-return(
-    <div className="edit-card" onClick={(e)=>{e.stopPropagation();}}>
-      <h3>Edit Flag</h3>
-      <form onSubmit={handleEdit}>
-        <input 
-          type="text" 
-          placeholder="Name" 
-          value={editedFlag.name} 
-          onChange={(e) => setEditedFlag({ ...editedFlag, name: e.target.value })} 
-          required 
-        />
-        <input 
-          type="text" 
-          placeholder="Description" 
-          value={editedFlag.description} 
-          onChange={(e) => setEditedFlag({ ...editedFlag, description: e.target.value })} 
-        />
-        <label>
-          <input 
-            type="checkbox" 
-            checked={editedFlag.enabled} 
-            onChange={(e) => setEditedFlag({ ...editedFlag, enabled: e.target.checked })} 
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [editedFlag]);
+
+  return (
+    <div onClick={(e) => e.stopPropagation()} className="edit-form">
+      <div className="edit-card">
+        <h3>Edit Feature</h3>
+        <Toaster richColors
+      toastOptions={{
+        style:{ 
+
+          padding: '16px',
+          borderRadius: '8px'}}}/> 
+        <form onSubmit={handleEdit}>
+          <input
+            type="text"
+            placeholder="Name"
+            value={editedFlag.name}
+            onChange={(e) => setEditedFlag({ ...editedFlag, name: e.target.value })}
+            required
           />
-          <span className="status-text">
-          Enabled
-          </span>
-        </label>
-
-        <div className="country select-container">
-        <label htmlFor="select-country">
-        Country:
-        </label>
-        <select id="select-country"
-        value={editedFlag.country}
-        onChange={(e)=>{setEditedFlag({...editedFlag, country:e.target.value});}}
-        >
-            <option value="Ghana">Ghana</option>
-            <option value="Uganda">Uganda</option>
-        </select>
-        </div>
-        <div className="permission select-container">
-        <label>Permissions:</label>
-        <select
-           value={editedFlag.permission}
-           onChange={(e)=>setEditedFlag({...editedFlag, permission:e.target.value})}>
-            <option value="Developer">Developer</option>
-            <option value="Admin">Admin</option>
-        </select>
+          <input
+            type="text"
+            placeholder="Description"
+            value={editedFlag.description}
+            onChange={(e) => setEditedFlag({ ...editedFlag, description: e.target.value })}
+          />
+          <label>
+            <input
+              type="checkbox"
+              checked={editedFlag.development}
+              onChange={(e) => {
+                if (editedFlag.permission === 'Admin' && userRole !== 'Admin') {
+                  toast.error("You don't have permission to update this feature flag.");
+                  return;}
+                  setEditedFlag({ ...editedFlag, development: e.target.checked });}}
+            />
+            <span className="status-text">Development Enabled</span>
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={editedFlag.production}
+              onChange={(e) => {
+                if (editedFlag.permission === 'Admin' && userRole !== 'Admin') {
+                  toast.error("You don't have permission to update this feature flag.");
+                  return;}
+                  setEditedFlag({ ...editedFlag, development: e.target.checked });}}
+            />
+            <span className="status-text">Production Enabled</span>
+          </label>
+          <div className="select-container">
+            <label htmlFor="select-country">Country:</label>
+            <select
+              id="select-country"
+              value={editedFlag.country}
+              onChange={(e) => setEditedFlag({ ...editedFlag, country: e.target.value })}
+            >
+              <option value="Ghana">Ghana</option>
+              <option value="Uganda">Uganda</option>
+            </select>
+          </div>
+          <div className="select-container">
+            <label>Permissions:</label>
+            <select
+              value={editedFlag.permission}
+              onChange={(e) => {
+              if (editedFlag.permission === 'Admin' && userRole !== 'Admin') {
+                toast.error("You don't have permission to update this feature flag.");
+                return;}
+              setEditedFlag({ ...editedFlag, permission: e.target.value })
+              }}
+            >
+              <option value="Developer">Developer</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
+          <button type="submit">Edit</button>
+          <button type="button" onClick={() => setEditedFlag(null)}>Cancel</button>
+        </form>
       </div>
-      <div className="environment select-container">
-        <label>Develpment Environment:</label>
-        <select
-           value={editedFlag.environment}
-           onChange={(e)=>{setEditedFlag({...editedFlag, environment:e.target.value});}}>
-            <option value="Development">Development</option>
-            <option value="Production">Production</option>
-        </select>
-      </div>
-        <button type="submit">Edit</button>
-        {editedFlag&&(<button type="button" onClick={() => {
-            setEditedFlag(null);}
-            }>Cancel</button>)}
-      </form>
     </div>
-)
-}
+  );
+};
 
 export default FlagForm;

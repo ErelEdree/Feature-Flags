@@ -1,3 +1,8 @@
+/* Add this class to control body overflow */
+.modal-open {
+  overflow: hidden;
+}
+
 .edit-form {
   position: fixed;
   top: 0;
@@ -16,8 +21,7 @@
 
 .edit-card {
   background-color: white;
-  border-radius: 8px;
-  padding: 20px;
+  padding: 30px;
   width: 90%;
   max-width: 600px;
   max-height: 90%;
@@ -27,31 +31,36 @@
 }
 
 .edit-card h3 {
-  margin-top: 0;
+  margin-bottom:10px;
   color: #333;
+  text-align: center;
+  font-size: 24px;
 }
 
 .edit-card form {
   display: flex;
   flex-direction: column;
+  gap: 15px;
 }
 
 .edit-card input,
 .edit-card select,
 .edit-card label {
-  margin: 10px 0;
+  margin: 5px 0;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  font-size: 16px;
 }
 
 .edit-card button {
-  margin: 10px 0;
-  padding: 10px 20px;
+  margin-top: 10px;
+  padding: 12px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 16px;
 }
 
 .edit-card button[type="submit"] {
@@ -67,8 +76,11 @@
 .select-container {
   display: flex;
   flex-direction: column;
+  gap: 5px;
 }
 
 .status-text {
-  margin-left: 5px;
+  margin-left: 10px;
+  font-weight: bold;
+  color: #555;
 }

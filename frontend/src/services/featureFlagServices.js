@@ -7,6 +7,8 @@ export const getFeatureFlags = async () => {
 };
 
 export const createFeatureFlag = async (data) => {
+  console.log(`DATA IS: `);
+  console.log(data);
   return await axios.post(API_URL, data); 
 };
 

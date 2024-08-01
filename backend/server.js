@@ -7,6 +7,7 @@ const cors = require("cors");
 //Routes
 const authRoutes = require("./routes/auth");
 const flagRoutes = require("./routes/flags");
+const seedFeatureFlags = require("./seedFeatureFlags");
 //initialising express app:
 const app = express();
 const PORT = 4000;
@@ -20,6 +21,7 @@ app.use(cors());
 main().catch(err => console.log(err));
 async function main() {
   await mongoose.connect(process.env.MONGO_URI);
+  await seedFeatureFlags();
 }
 
 

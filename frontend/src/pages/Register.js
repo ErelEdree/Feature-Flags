@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import "../styles/register.css";  // Import the CSS file
-import {Toaster,toast} from "sonner";
+import "../styles/register.css";
+import { Toaster, toast } from "sonner";
+
 const Register = () => {
   const [formData, setFormData] = useState({
     userName: '',
@@ -21,8 +22,9 @@ const Register = () => {
       const res = await axios.post('http://localhost:4000/api/auth/register', formData);
       console.log(res.data);
       toast.success('Registration successful!');
-      setTimeout(()=>{      navigate('/login');
-      },1500);
+      setTimeout(() => {
+        navigate('/login');
+      }, 1500);
     } catch (err) {
       console.error(err.response.data);
       toast.error('Registration failed!');
@@ -32,18 +34,15 @@ const Register = () => {
   return (
     <div className="register-container">
       <div className="register-card">
-        <h2>Register</h2>
+        <h2>Create Account</h2>
         <form onSubmit={onSubmit}>
           <div className="form-group">
-            <label>Username:</label>
-            <input type="text" name="userName" value={userName} onChange={onChange} required />
+            <input type="text" name="userName" value={userName} onChange={onChange} required placeholder="Username" />
           </div>
           <div className="form-group">
-            <label>Password:</label>
-            <input type="password" name="password" value={password} onChange={onChange} required />
+            <input type="password" name="password" value={password} onChange={onChange} required placeholder="Password" />
           </div>
           <div className="form-group">
-            <label>Role:</label>
             <select name="role" value={role} onChange={onChange}>
               <option value="Developer">Developer</option>
               <option value="Admin">Admin</option>
@@ -51,13 +50,17 @@ const Register = () => {
           </div>
           <button type="submit">Register</button>
         </form>
+        <p className="login-link">Already have an account? <a href="/login">Login</a></p>
       </div>
-      <Toaster richColors
-      toastOptions={{
-        style:{ 
-
-          padding: '16px',
-          borderRadius: '8px'}}}/> 
+      <Toaster 
+        richColors
+        toastOptions={{
+          style: { 
+            padding: '16px',
+            borderRadius: '8px'
+          }
+        }}
+      />
     </div>
   );
 };
