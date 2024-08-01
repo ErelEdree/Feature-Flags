@@ -7,9 +7,9 @@ Clone the Repository to your local machine.
 install backend and frontend dependencies by navigating to each folder respectively and running 'npm install'.
 
 ## Setting up backend:
-Create a .env file in the backend directory and add the following environment variables:
+Edit .env file in the backend directory with the following environment variables:
 PORT, MONGO_URI, using the appropriate port on which the server will be running locally and the URI to the mongoDB database on the local machine. 
-MONGO_URI refers to the path directly to the db the project will be using i.e. ".../feature-flags"
+The default values use Port 4000 and the default MongoDB local address with a feature-flags db.
 
 ## Running the project:
 
