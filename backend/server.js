@@ -10,7 +10,7 @@ const flagRoutes = require("./routes/flags");
 const seedFeatureFlags = require("./seedFeatureFlags");
 //initialising express app:
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT;
 
 //middleware:
 app.use(bodyParser.json());
